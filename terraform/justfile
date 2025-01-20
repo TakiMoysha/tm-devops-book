@@ -1,0 +1,11 @@
+set dotenv-load
+
+set_env:
+  export TF_VAR_AWS_ACCESS_ID=$AWS_ACCESS_ID
+  export TF_VAR_AWS_SECRET_KEY=$AWS_SECRET_KEY
+
+tf workspace *args: set_env
+  terraform -chdir=terraform.tfstate.d/{{workspace}} {{args}}
+
+create-dotenv AWS_ACCESS_KEY_ID AWS_SECRET_KEY:
+  @echo "AWS_ACCESS_KEY_ID={{AWS_ACCESS_KEY_ID}}\nAWS_SECRET_KEY={{AWS_SECRET_KEY}}" > .env
